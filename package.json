@@ -1,7 +1,7 @@
 {
   "name": "mal-vscode-extension",
   "publisher": "mal-lang",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {"url": "https://github.com/mal-lang/mal-vscode-extension"},
   "engines": { "vscode": "^1.90.0" },
   "activationEvents": ["onLanguage:mal"],
@@ -19,10 +19,12 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./"
   },
-    "devDependencies": {
-        "typescript": "^5.0.0",
-        "@types/node": "^20.0.0",
-        "@types/vscode": "^1.90.0",
-        "vscode-languageclient": "^9.0.1"
-    }
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0"
+  }
 }
