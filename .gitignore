@@ -9,6 +9,7 @@ out/
 dist/
 *.js
 *.js.map
+*.vsix
 
 # TypeScript build info
 *.tsbuildinfo
