@@ -1,0 +1,35 @@
+/* Shamelessly stolen från Sandor */
+{
+  "comments": {
+    "lineComment": "//",
+    "blockComment": ["/*", "*/"]
+  },
+  "brackets": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"]
+  ],
+  "autoClosingPairs": [
+    { "open": "{", "close": "}" },
+    { "open": "[", "close": "]" },
+    { "open": "(", "close": ")" },
+    { "open": "\"", "close": "\"", "notIn": ["string"] }
+  ],
+  "surroundingPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["\"", "\""]
+  ],
+  "folding": {
+    "markers": {
+      "start": "^\\s*//\\s*#?region\\b",
+      "end": "^\\s*//\\s*#?endregion\\b"
+    }
+  },
+  "wordPattern": "\\b[A-Za-z_][A-Za-z0-9_]*\\b",
+  "indentationRules": {
+    "increaseIndentPattern": "^\\s*(category|asset|abstract|associations|\\|\\s*\\w+|&\\s*\\w+|#\\s*\\w+).*\\{\\s*$",
+    "decreaseIndentPattern": "^\\s*\\}\\s*$"
+  }
+}

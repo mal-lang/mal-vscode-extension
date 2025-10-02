@@ -1,0 +1,474 @@
+{
+  "scopeName": "source.mal",
+  "fileTypes": [
+    "mal"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#includes"
+    },
+    {
+      "include": "#defines"
+    },
+    {
+      "include": "#categories"
+    },
+    {
+      "include": "#associations"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#keywords"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.mal",
+          "begin": "//",
+          "end": "$",
+          "patterns": [
+            {
+              "name": "comment.line.double-slash.exclamation.mal",
+              "match": "//!"
+            }
+          ]
+        },
+        {
+          "name": "comment.block.mal",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "includes": {
+      "patterns": [
+        {
+          "name": "meta.include.mal",
+          "match": "^\\s*(include)\\s+(\"[^\"]*\")",
+          "captures": {
+            "1": {
+              "name": "keyword.other.include.mal"
+            },
+            "2": {
+              "name": "string.quoted.double.mal"
+            }
+          }
+        }
+      ]
+    },
+    "defines": {
+      "patterns": [
+        {
+          "name": "meta.define.mal",
+          "match": "^\\s*(#)([A-Za-z_][A-Za-z0-9_]*)\\s*:\\s*(\"[^\"]*\")",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.define.mal"
+            },
+            "2": {
+              "name": "entity.name.type.define-key.mal"
+            },
+            "3": {
+              "name": "string.quoted.double.mal"
+            }
+          }
+        }
+      ]
+    },
+    "categories": {
+      "patterns": [
+        {
+          "name": "meta.category.mal",
+          "begin": "^\\s*(category)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*\\{",
+          "end": "^\\s*\\}",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.category.mal"
+            },
+            "2": {
+              "name": "entity.name.type.category.mal"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.block.end.mal"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#assets"
+            },
+            {
+              "include": "#meta-declarations"
+            },
+            {
+              "include": "#comments"
+            }
+          ]
+        }
+      ]
+    },
+    "assets": {
+      "patterns": [
+        {
+          "name": "meta.asset.mal",
+          "begin": "^\\s*(abstract\\s+)?(asset)\\s+([A-Za-z_][A-Za-z0-9_]*)(\\s+extends\\s+([A-Za-z_][A-Za-z0-9_]*))?",
+          "end": "^\\s*\\}",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.abstract.mal"
+            },
+            "2": {
+              "name": "keyword.other.asset.mal"
+            },
+            "3": {
+              "name": "entity.name.type.asset.mal"
+            },
+            "4": {
+              "name": "keyword.other.extends.mal"
+            },
+            "5": {
+              "name": "entity.name.type.parent.mal"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.block.end.mal"
+            }
+          },
+          "patterns": [
+            {
+              "name": "punctuation.section.block.begin.mal",
+              "match": "^\\s*\\{"
+            },
+            {
+              "include": "#steps"
+            },
+            {
+              "include": "#variables"
+            },
+            {
+              "include": "#meta-declarations"
+            },
+            {
+              "include": "#comments"
+            }
+          ]
+        }
+      ]
+    },
+    "steps": {
+      "patterns": [
+        {
+          "name": "meta.step.mal",
+          "begin": "^(\\s*)([&|#E]|!E)\\s+([A-Za-z_][A-Za-z0-9_]*)(\\s+@[A-Za-z_][A-Za-z0-9_]*)*(\\s*\\{[C,I,A]+\\})?(\\s*\\[[^\\]]+\\])?",
+          "end": "^(?=\\s*(?:[&|#E]|!E)|\\s*#|\\s*\\}|\\s*$)",
+          "beginCaptures": {
+            "2": {
+              "name": "punctuation.definition.step-type.mal"
+            },
+            "3": {
+              "name": "entity.name.function.step.mal"
+            },
+            "4": {
+              "name": "entity.name.tag.annotation.mal"
+            },
+            "5": {
+              "name": "constant.language.impact.mal"
+            },
+            "6": {
+              "name": "constant.numeric.multiplicity.mal"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#meta-declarations"
+            },
+            {
+              "include": "#comments"
+            }
+          ]
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "meta.variable.mal",
+          "match": "^(\\s*)(let)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*=\\s*(.*)$",
+          "captures": {
+            "2": {
+              "name": "keyword.other.let.mal"
+            },
+            "3": {
+              "name": "variable.other.mal"
+            }
+          }
+        }
+      ]
+    },
+    "meta-declarations": {
+      "patterns": [
+        {
+          "name": "meta.declaration.mal",
+          "begin": "^(\\s*)([A-Za-z_][A-Za-z0-9_]*)\\s+(info)\\s*:\\s*",
+          "end": "^(?=\\s*[A-Za-z_][A-Za-z0-9_]*\\s+info|\\s*(?:[&|#E]|!E)|\\s*#|\\s*\\{|\\s*\\}|\\s*let\\b|\\s*$)",
+          "beginCaptures": {
+            "2": {
+              "name": "entity.name.type.meta-name.mal"
+            },
+            "3": {
+              "name": "keyword.other.info.mal"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#strings"
+            }
+          ]
+        }
+      ]
+    },
+    "associations": {
+      "patterns": [
+        {
+          "name": "meta.associations.mal",
+          "begin": "^\\s*(associations)\\s*\\{",
+          "end": "^\\s*\\}",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.other.associations.mal"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.block.end.mal"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#association-definition"
+            },
+            {
+              "include": "#meta-declarations"
+            },
+            {
+              "include": "#comments"
+            }
+          ]
+        }
+      ]
+    },
+    "association-definition": {
+      "patterns": [
+        {
+          "name": "meta.association-definition.mal",
+          "match": "^(\\s*)([A-Za-z_][A-Za-z0-9_]*)\\s+(\\[[A-Za-z_][A-Za-z0-9_]*\\])\\s+((?:(?:\\d+(?:\\.\\d+)?)|\\*)(?:\\.\\.(?:(?:\\d+(?:\\.\\d+)?)|\\*))?)\\s*<--\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*-->\\s+((?:(?:\\d+(?:\\.\\d+)?)|\\*)(?:\\.\\.(?:(?:\\d+(?:\\.\\d+)?)|\\*))?)\\s*(\\[[A-Za-z_][A-Za-z0-9_]*\\])\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "2": {
+              "name": "entity.name.type.source-asset.mal"
+            },
+            "3": {
+              "name": "entity.name.type.source-field.mal"
+            },
+            "4": {
+              "name": "constant.numeric.multiplicity.mal"
+            },
+            "5": {
+              "name": "entity.name.type.association-name.mal"
+            },
+            "6": {
+              "name": "constant.numeric.multiplicity.mal"
+            },
+            "7": {
+              "name": "entity.name.type.target-field.mal"
+            },
+            "8": {
+              "name": "entity.name.type.target-asset.mal"
+            }
+          }
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.triple.mal",
+          "begin": "\"\"\"",
+          "end": "\"\"\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.mal",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.double.mal",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.mal",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arrow.mal",
+          "match": "->"
+        },
+        {
+          "name": "keyword.operator.inherits.mal",
+          "match": "\\+>"
+        },
+        {
+          "name": "keyword.operator.requires.mal",
+          "match": "<-"
+        },
+        {
+          "name": "keyword.operator.union.mal",
+          "match": "\\\\/"
+        },
+        {
+          "name": "keyword.operator.intersection.mal",
+          "match": "/\\\\"
+        },
+        {
+          "name": "keyword.operator.range.mal",
+          "match": "\\.\\."
+        },
+        {
+          "name": "keyword.operator.arrow-association.mal",
+          "match": "<--|-->"
+        },
+        {
+          "name": "keyword.operator.and.mal",
+          "match": "&"
+        },
+        {
+          "name": "keyword.operator.or.mal",
+          "match": "\\|"
+        },
+        {
+          "name": "keyword.operator.star.mal",
+          "match": "\\*"
+        },
+        {
+          "name": "keyword.operator.plus.mal",
+          "match": "\\+"
+        },
+        {
+          "name": "keyword.operator.minus.mal",
+          "match": "-"
+        },
+        {
+          "name": "keyword.operator.divide.mal",
+          "match": "/"
+        },
+        {
+          "name": "keyword.operator.power.mal",
+          "match": "\\^"
+        },
+        {
+          "name": "keyword.operator.assign.mal",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.comma.mal",
+          "match": ","
+        },
+        {
+          "name": "keyword.operator.dot.mal",
+          "match": "\\."
+        },
+        {
+          "name": "keyword.operator.at.mal",
+          "match": "@"
+        },
+        {
+          "name": "keyword.operator.exclamation.mal",
+          "match": "!"
+        },
+        {
+          "name": "keyword.operator.hash.mal",
+          "match": "#"
+        },
+        {
+          "name": "keyword.operator.colon.mal",
+          "match": ":"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.other.category.mal",
+          "match": "\\b(?:category)\\b"
+        },
+        {
+          "name": "keyword.other.asset.mal",
+          "match": "\\b(?:asset)\\b"
+        },
+        {
+          "name": "keyword.other.abstract.mal",
+          "match": "\\b(?:abstract)\\b"
+        },
+        {
+          "name": "keyword.other.extends.mal",
+          "match": "\\b(?:extends)\\b"
+        },
+        {
+          "name": "keyword.other.associations.mal",
+          "match": "\\b(?:associations)\\b"
+        },
+        {
+          "name": "keyword.other.include.mal",
+          "match": "\\b(?:include)\\b"
+        },
+        {
+          "name": "keyword.other.let.mal",
+          "match": "\\b(?:let)\\b"
+        },
+        {
+          "name": "keyword.other.info.mal",
+          "match": "\\b(?:info)\\b"
+        },
+        {
+          "name": "constant.language.boolean.mal",
+          "match": "\\b(true|false)\\b"
+        },
+        {
+          "name": "constant.language.impact.mal",
+          "match": "\\{[CIA,]+\\}"
+        },
+        {
+          "name": "constant.numeric.multiplicity.mal",
+          "match": "(?:(?:\\d+(?:\\.\\d+)?)|\\*)(?:\\.\\.(?:(?:\\d+(?:\\.\\d+)?)|\\*))?"
+        },
+        {
+          "name": "constant.numeric.float.mal",
+          "match": "\\b\\d*\\.\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.mal",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    }
+  }
+}
