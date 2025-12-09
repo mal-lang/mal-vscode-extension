@@ -1,5 +1,5 @@
 # MAL VSCode plugin
-
+Available on VS Marketplace: https://marketplace.visualstudio.com/items?itemName=mal-lang.mal-vscode-extension
 Uses the mal-language-server to give language support to .mal-files in VSCode.
 
 Uses a language-configuration and language syntax file to get syntax highlighting.
